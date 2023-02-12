@@ -18,16 +18,15 @@ on:
       only: main
 
 jobs:
-  cloneRepo:
+  CloneRepo:
     resources:
-      instance-type: C4
+      instance-type: C5
     outputs:
       repo:
         type: volume
     uses: git-checkout@v1
     with:
       url: context.event.github.url
-      ref: context.event.github.ref
 
 #   generateText:
 #     resources:
