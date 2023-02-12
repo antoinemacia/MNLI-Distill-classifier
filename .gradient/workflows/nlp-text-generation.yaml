@@ -29,33 +29,33 @@ jobs:
       url: context.event.github.url
       ref: context.event.github.ref
 
-  generateText:
-    resources:
-      instance-type: C4
-    needs:
-      - cloneRepo
-    inputs:
-      repo: cloneRepo.outputs.repo
-    outputs:
-      generatedText:
-        type: dataset
-        with:
-          ref: demo-dataset
-    uses: script@v1
-    with:
-      script: |-
-        pip3 install -U transformers torch datasets tqdm
-        python3 distill.py --data_file unlabeled_data.txt --class_names_file class_names.txt --hypothesis_template "This request is a {}" --teacher_name_or_path "valhalla/distilbart-mnli-12-1" --output_dir ./output
-      image: paperspace/transformers-gpu:0.4.0
+#   generateText:
+#     resources:
+#       instance-type: C4
+#     needs:
+#       - cloneRepo
+#     inputs:
+#       repo: cloneRepo.outputs.repo
+#     outputs:
+#       generatedText:
+#         type: dataset
+#         with:
+#           ref: demo-dataset
+#     uses: script@v1
+#     with:
+#       script: |-
+#         pip3 install -U transformers torch datasets tqdm
+#         python3 distill.py --data_file unlabeled_data.txt --class_names_file class_names.txt --hypothesis_template "This request is a {}" --teacher_name_or_path "valhalla/distilbart-mnli-12-1" --output_dir ./output
+#       image: paperspace/transformers-gpu:0.4.0
 
-# Appendix: Extra details
-#
-# pip3 install updates transformers from the version on the image to the latest
-# This isn't required, but gives access to more models
-# The script fails if "python" is used instead of "python3"
-# Everything here is assumed to be running in the main branch of the repository
-# The generateText job is OK on C5 (CPU) or P4000 (GPU) but may fail on smaller instances
-# if they have insufficient memory
-# The output dataset used is "demo-dataset", which is auto-generated in Gradient for each team
-# This avoids requiring the creation of an output dataset before the YAML is run
-# The output can be directed elsewhere, provided the alternative output Dataset location has been created
+# # Appendix: Extra details
+# #
+# # pip3 install updates transformers from the version on the image to the latest
+# # This isn't required, but gives access to more models
+# # The script fails if "python" is used instead of "python3"
+# # Everything here is assumed to be running in the main branch of the repository
+# # The generateText job is OK on C5 (CPU) or P4000 (GPU) but may fail on smaller instances
+# # if they have insufficient memory
+# # The output dataset used is "demo-dataset", which is auto-generated in Gradient for each team
+# # This avoids requiring the creation of an output dataset before the YAML is run
+# # The output can be directed elsewhere, provided the alternative output Dataset location has been created
