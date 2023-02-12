@@ -18,7 +18,6 @@ on:
       only: main
 
 jobs:
-
   cloneRepo:
     resources:
       instance-type: C4
@@ -32,7 +31,7 @@ jobs:
 
   generateText:
     resources:
-      instance-type: C5
+      instance-type: M4000
     needs:
       - cloneRepo
     inputs:
@@ -45,12 +44,8 @@ jobs:
     uses: script@v1
     with:
       script: |-
-        cp -R /inputs/repo /nlp
-        cd /nlp
-        pip3 install -U transformers
-        python3 nlp_text_generation.py
-        mv output.txt /outputs/generatedText
-        ls "-aFlR" /outputs/generatedText
+        pip3 install -U transformers torch datasets tqdm
+        python3 distill.py --data_file unlabeled_data.txt --class_names_file class_names.txt --hypothesis_template "This request is a {}" --teacher_name_or_path "valhalla/distilbart-mnli-12-1" --output_dir ./output
       image: paperspace/transformers-gpu:0.4.0
 
 # Appendix: Extra details
