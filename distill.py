@@ -176,6 +176,7 @@ def get_teacher_predictions(
     if not no_cuda and torch.cuda.is_available():
         model = nn.DataParallel(model.cuda())
         batch_size *= len(model.device_ids)
+
     tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=use_fast_tokenizer)
 
     premises, hypotheses = get_premise_hypothesis_pairs(examples, class_names, hypothesis_template)
