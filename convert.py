@@ -1,6 +1,10 @@
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
-from pathlib import Path 
+import pandas as pd
+from pathlib import Path
 import json
+
+TRAINING_DATASET_PATH = './embold_train.json'
+CSV_OUTPUT_PATH = 'unlabelled_titles_simple.csv'
+
 
 def json_to_df(path):
     with open(path) as json_file:
@@ -9,8 +13,8 @@ def json_to_df(path):
     return pd.DataFrame(parsed_file)
 
 
-filepath = Path('./embold_train_extra.json')
+filepath = Path(TRAINING_DATASET_PATH)
 
 df = json_to_df(filepath)
 df["text"] = df["title"]
-df.head(5000).to_csv('unlabelled_titles_simple.csv', index=False, columns = ["text"])
+df.to_csv(CSV_OUTPUT_PATH, index=False, columns = ["text"])
